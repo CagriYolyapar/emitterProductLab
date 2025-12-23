@@ -1,0 +1,11 @@
+<div class="list">
+  @for(p of products;track p.id){
+  <div class="card" (click)="selectProduct(p.id)">
+    <h4>{{ p.name }}</h4>
+
+    <p>Fiyat: {{ p.price | currency : 'USD' : 'symbol' }}</p>
+
+    <button type="button" >Sepete ekle</button>
+  </div>
+  }
+</div>
