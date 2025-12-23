@@ -37,16 +37,12 @@ import { Product } from '../../Models/Product';
   styleUrl: './product-list.css',
 })
 export class ProductList {
-
- //@Input Parent => child veri akışı
+  //@Input Parent => child veri akışı
   @Input() products: Product[] = [];
-
 
   //Output + EventEmitter
   //Child => Parent'a veri akısı
   //Child icinde bir event yayınlamak icin (emit etmek) kullanılır...Parent bu event'i template'inde dinler ...Bunun icin output keyword'uyla işaretlenmiş EventEmitter degişkeni kullanır...
-
-
 
   @Output() selected = new EventEmitter<number>();
 
@@ -55,4 +51,15 @@ export class ProductList {
   }
 
   //todo : Sepet işlemleri
+
+  //Kartın secimini tetikleyen bir click düzenlenecek
+
+  //Butona tıklayına kartın(click) event'i de tetiklenmesin diye event yapısını elde edip event propagation durduracagız
+
+  @Output() addToCart = new EventEmitter<Product>();
+
+  addProductToCart(product: Product, e: Event) {
+    e.stopPropagation(); //kartın click event'ini engeller
+    this.addToCart.emit(product); //Parent'a ürünü gönderelim
+  }
 }

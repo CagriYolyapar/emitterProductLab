@@ -1,0 +1,11 @@
+.selected {
+  border: 1px solid beige;
+  padding: 10px;
+  width: 520px;
+  background: white;
+}
+
+label {
+  display: block;
+  margin: 8px 0;
+}
