@@ -56,5 +56,45 @@ export class App {
 
   //Ödev custom pipe dısında düz filtreleme...
 
-  //Todo Sepet işlemleri : 
+  //Todo Sepet işlemleri :
+
+  cart = signal<CartItem[]>([]);
+
+  //Child => Parent
+
+  onAddToCart(product: Product) {
+    this.cart.update((items) => {
+      const existing = items.find((x) => x.product.id === product.id);
+      if (!existing) {
+        return [...items, { product, quantity: 1 }];
+      }
+
+      return items.map((x) =>
+        x.product.id === product.id ? { ...x, quantity: x.quantity + 1 } : x
+      );
+    });
+  }
+
+  //Toplamı otomatik hesaplama
+
+  cartTotal = computed(() => {
+    return this.cart().reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  });
+
+  removeFromCart(productId: number) {
+    this.cart.update((items) => {
+      const item = items.find((x) => x.product.id === productId);
+      if (!item) return items;
+
+      //quantity sadece 1 ise komple satırı kaldıralım
+      if (item.quantity <= 1) {
+        return items.filter((x) => x.product.id !== productId);
+      }
+
+      //Quantity azaltma durumu
+      return items.map((x) =>
+        x.product.id === productId ? { ...x, quantity: x.quantity - 1 } : x
+      );
+    });
+  }
 }
