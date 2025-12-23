@@ -5,7 +5,7 @@
 
     <p>Fiyat: {{ p.price | currency : 'USD' : 'symbol' }}</p>
 
-    <button type="button" >Sepete ekle</button>
+    <button type="button" (click)="addProductToCart(p,$event)" >Sepete ekle</button>
   </div>
   }
 </div>

@@ -1,3 +1,29 @@
+<h2>Sepetim</h2>
+
+@if(cart().length === 0){
+<div class="selected">Sepetiniz su an bos</div>
+}@else {
+<ul>
+  @for(item of cart();track item.product.id){
+  <li>
+    <b>{{ item.product.name }}</b>
+    -Adet : {{ item.quantity }} -Birim :
+    {{ item.product.price | currency : 'USD' : 'symbol' }} -Satır :
+    {{ item.product.price * item.quantity | currency : 'USD' : 'symbol' }}
+
+    <button type="button" (click)="removeFromCart(item.product.id)">-</button>
+  </li>
+  }
+</ul>
+
+<hr>
+
+<div class="selected">
+<b>Genel Toplam</b>
+{{cartTotal() | currency:'USD':'symbol'}}
+</div>
+}
+
 <!--Secili ürün gösterimi-->
 
 @if(selectedProduct() !== null){
@@ -24,7 +50,9 @@
   <input type="number" placeholder="ör:3000" (input)="onMaxPriceInput($event)" />
 </label>
 
-
-<app-product-list [products]="products() | productFilter:searchText():maxPrice()" (selected)="onChildSelected($event)" >
-
+<app-product-list
+  [products]="products() | productFilter : searchText() : maxPrice()"
+  (addToCart)="onAddToCart($event)"
+  (selected)="onChildSelected($event)"
+>
 </app-product-list>
